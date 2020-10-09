@@ -3,6 +3,7 @@ import shareLatest from "../internal/share-latest"
 import reactEnhancer from "../internal/react-enhancer"
 import { BehaviorObservable } from "../internal/BehaviorObservable"
 import { useObservable } from "../internal/useObservable"
+import { startWith } from "../internal/startWith"
 import { SUSPENSE } from "../SUSPENSE"
 
 /**
@@ -26,11 +27,16 @@ import { SUSPENSE } from "../SUSPENSE"
  */
 export default function connectFactoryObservable<A extends [], O>(
   getObservable: (...args: A) => Observable<O>,
+  defaultValue?: O,
 ): [
   (...args: A) => Exclude<O, typeof SUSPENSE>,
   (...args: A) => Observable<O>,
 ] {
   const cache = new NestedMap<A, [Observable<O>, BehaviorObservable<O>]>()
+  const _getObservable: (...args: A) => Observable<O> =
+    arguments.length === 1
+      ? getObservable
+      : (...args: A) => startWith(defaultValue!, getObservable(...args))
 
   const getSharedObservables$ = (
     input: A,
@@ -46,7 +52,7 @@ export default function connectFactoryObservable<A extends [], O>(
     }
 
     const sharedObservable$ = shareLatest(
-      getObservable(...input),
+      _getObservable(...input),
       false,
       () => {
         cache.delete(keys)

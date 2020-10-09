@@ -7,7 +7,7 @@ const reducer = (
   current: { type: Action; payload: any },
   action: { type: Action; payload: any },
 ) =>
-  Object.is(current.payload, action.payload) && current.type === action.type
+  current.type === action.type && Object.is(current.payload, action.payload)
     ? current
     : action
 

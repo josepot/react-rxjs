@@ -2,6 +2,7 @@ import { Observable } from "rxjs"
 import shareLatest from "../internal/share-latest"
 import reactEnhancer from "../internal/react-enhancer"
 import { useObservable } from "../internal/useObservable"
+import { startWith } from "../internal/startWith"
 
 /**
  * Accepts: An Observable.
@@ -18,8 +19,13 @@ import { useObservable } from "../internal/useObservable"
  * subscription, then the hook will leverage React Suspense while it's waiting
  * for the first value.
  */
-export default function connectObservable<T>(observable: Observable<T>) {
-  const sharedObservable$ = shareLatest<T>(observable, false)
+export default function connectObservable<T>(
+  observable: Observable<T>,
+  defaultValue?: T,
+) {
+  const defaultedObservable =
+    arguments.length === 2 ? startWith(defaultValue!, observable) : observable
+  const sharedObservable$ = shareLatest<T>(defaultedObservable, false)
   const reactObservable$ = reactEnhancer(sharedObservable$)
   const useStaticObservable = () => useObservable(reactObservable$)
   return [useStaticObservable, sharedObservable$] as const
