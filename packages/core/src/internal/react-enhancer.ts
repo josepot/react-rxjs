@@ -3,7 +3,10 @@ import { SUSPENSE } from "../SUSPENSE"
 import { BehaviorObservable } from "./BehaviorObservable"
 import { EMPTY_VALUE } from "./empty-value"
 
-const reactEnhancer = <T>(source$: Observable<T>): BehaviorObservable<T> => {
+const reactEnhancer = <T>(
+  source$: Observable<T>,
+  defaultValue: T,
+): BehaviorObservable<T> => {
   const result = new Observable<T>((subscriber) =>
     source$.subscribe(subscriber),
   ) as BehaviorObservable<T>
@@ -23,6 +26,7 @@ const reactEnhancer = <T>(source$: Observable<T>): BehaviorObservable<T> => {
     try {
       return (source$ as BehaviorObservable<T>).getValue()
     } catch (e) {
+      if (defaultValue !== EMPTY_VALUE) return defaultValue
       if (promise) throw promise
 
       let value: typeof EMPTY_VALUE | T = EMPTY_VALUE

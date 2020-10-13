@@ -19,6 +19,7 @@ import connectObservable from "./connectObservable"
  */
 export function bind<T>(
   observable: Observable<T>,
+  defaultValue?: T,
 ): [() => Exclude<T, typeof SUSPENSE>, Observable<T>]
 
 /**
@@ -41,12 +42,11 @@ export function bind<T>(
  */
 export function bind<A extends unknown[], O>(
   getObservable: (...args: A) => Observable<O>,
+  defaultValue?: O,
 ): [(...args: A) => Exclude<O, typeof SUSPENSE>, (...args: A) => Observable<O>]
 
-export function bind<A extends unknown[], O>(
-  obs: ((...args: A) => Observable<O>) | Observable<O>,
-) {
-  return (typeof obs === "function"
+export function bind(...args: any[]) {
+  return (typeof args[0] === "function"
     ? (connectFactoryObservable as any)
-    : connectObservable)(obs)
+    : connectObservable)(...args)
 }
