@@ -1,5 +1,5 @@
 {
-  "version": "0.6.0",
+  "version": "0.6.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/re-rxjs/react-rxjs.git"
@@ -15,7 +15,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "yarn build:ts && yarn build:esm && yarn build:cjs:dev && yarn build:cjs:prod",
-    "build:esm": "esbuild src/index.tsx --bundle --outfile=./dist/utils.esm.js --external:react --external:rxjs --external:@react-rxjs/core --format=esm --sourcemap",
+    "build:esm": "esbuild src/index.tsx --bundle --outfile=./dist/utils.esm.js --external:react --external:rxjs --external:@react-rxjs/core --format=esm --target=es2019 --sourcemap",
     "build:cjs:dev": "esbuild src/index.tsx --bundle --outfile=./dist/utils.cjs.development.js --external:react --external:rxjs --external:@react-rxjs/core --format=cjs --sourcemap",
     "build:cjs:prod": "esbuild src/index.tsx --bundle --outfile=./dist/utils.cjs.production.min.js --external:react --external:rxjs --external:@react-rxjs/core --format=cjs --minify --sourcemap",
     "build:ts": "tsc -p ./tsconfig.json --outDir ./dist --skipLibCheck --emitDeclarationOnly",
@@ -40,7 +40,7 @@
     "Victor Oliva (https://github.com/voliva)"
   ],
   "devDependencies": {
-    "@react-rxjs/core": "0.6.5",
+    "@react-rxjs/core": "0.6.6",
     "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^3.4.2",
     "@types/jest": "^26.0.20",

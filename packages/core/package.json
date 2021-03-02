@@ -1,5 +1,5 @@
 {
-  "version": "0.6.5",
+  "version": "0.6.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/re-rxjs/react-rxjs.git"
@@ -15,7 +15,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "yarn build:ts && yarn build:esm && yarn build:cjs:dev && yarn build:cjs:prod",
-    "build:esm": "esbuild src/index.tsx --bundle --outfile=./dist/core.esm.js --external:react --external:rxjs --format=esm --sourcemap",
+    "build:esm": "esbuild src/index.tsx --bundle --outfile=./dist/core.esm.js --external:react --external:rxjs --format=esm --target=es2019 --sourcemap",
     "build:cjs:dev": "esbuild src/index.tsx --bundle --outfile=./dist/core.cjs.development.js --external:react --external:rxjs --format=cjs --sourcemap",
     "build:cjs:prod": "esbuild src/index.tsx --bundle --outfile=./dist/core.cjs.production.min.js --external:react --external:rxjs --format=cjs --minify --sourcemap",
     "build:ts": "tsc -p ./tsconfig.json --outDir ./dist --skipLibCheck --emitDeclarationOnly",
