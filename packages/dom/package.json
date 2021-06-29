@@ -7,8 +7,15 @@
   "license": "MIT",
   "sideEffects": false,
   "exports": {
-    "import": "./dist/dom.es2019.mjs",
-    "require": "./dist/index.cjs"
+    ".": {
+      "node": {
+        "module": "./dist/dom.es2017.js",
+        "import": "./dist/dom.es2019.mjs",
+        "require": "./dist/index.cjs"
+      },
+      "default": "./dist/dom.es2017.js"
+    },
+    "./package.json": "./package.json"
   },
   "module": "./dist/dom.es2017.js",
   "main": "./dist/index.js",
